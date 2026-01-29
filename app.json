@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "react-native-boiler",
-    "slug": "react-native-boiler",
+    "name": "react-native-playground",
+    "slug": "react-native-playground",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "reactnativeboiler",
+    "scheme": "reactnativeplayground",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -15,9 +15,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "associatedDomains": [
-        "applinks:yourdomain.com"
-      ]
+      "associatedDomains": ["applinks:yourdomain.com"]
     },
     "android": {
       "adaptiveIcon": {
@@ -32,20 +30,17 @@
           "autoVerify": true,
           "data": [
             {
-              "scheme": "reactnativeboiler"
+              "scheme": "reactnativeplayground"
             },
             {
               "scheme": "https",
               "host": "yourdomain.com"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
-      "package": "com.anonymous.reactnativeboiler"
+      "package": "com.anonymous.reactnativeplayground"
     },
     "plugins": [
       [
