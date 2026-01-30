@@ -1,3 +1,5 @@
+import { StyledTextInputsView } from "@/app-screens/styles/login";
+import { AuthMode } from "@/app-screens/typings/login";
 import {
   POST_LOGIN_OTP_REQUEST,
   POST_LOGIN_VERIFY_OTP,
@@ -17,8 +19,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { getPhoneNumberError } from "./helpers";
-import { StyledTextInputsView } from "./styles";
-import { AuthMode } from "./typings";
 
 const Login = () => {
   const params = useLocalSearchParams();
@@ -127,7 +127,7 @@ const Login = () => {
       return;
     }
 
-    handleCredentials(verifyOtpData);
+    handleCredentials(verifyOtpData?.data);
   }, [verifyOtpLoading, verifyOtpError, verifyOtpData]);
 
   console.log("[Request OTP]:", requestOtpError, requestOtpData);

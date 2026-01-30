@@ -1,23 +1,7 @@
 import { StyleSheet } from "react-native";
 
-import { Text, View } from "@/components/Themed";
-import { useLocalSearchParams } from "expo-router";
-
 export default function Screen0() {
-  const params = useLocalSearchParams();
-
-  // console.log("[Params]:", params);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home Screen 0</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-    </View>
-  );
+  return <></>;
 }
 
 const styles = StyleSheet.create({

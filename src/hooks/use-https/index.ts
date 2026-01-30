@@ -5,6 +5,7 @@ import {
   HttpHooksError,
   HttpHooksOptions,
   HttpHooksResponse,
+  HttpResponse,
 } from "@/types/http";
 import { AxiosError } from "axios";
 
@@ -42,14 +43,14 @@ const defaultOptions = {
   sendSdkToken: false,
 };
 
-const _useQuery = <T>(
+const useQuery = <T>(
   path: string,
   options: HttpHooksOptions,
 ): HttpHooksResponse<T> => {
-  const { params, lazy, sendSdkToken } = { ...defaultOptions, ...options };
+  const { params, lazy } = { ...defaultOptions, ...options };
 
-  const [data, setData] = useState<T>();
-  const [ok, setOk] = useState<boolean | undefined>();
+  const [data, setData] = useState<HttpResponse<T>>();
+  const [ok, setOk] = useState<boolean | null>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [errorDetails, setErrorDetails] = useState<HttpHooksError | null>(null);
@@ -57,17 +58,13 @@ const _useQuery = <T>(
   const execute = useCallback(
     async (paramsOnExecute?: any, pathOnExecute?: any) => {
       setLoading(true);
-      setOk(undefined);
+      setOk(null);
       setErrorDetails(null);
       setError("");
       setData(undefined);
 
-      const headers = await getHeaders(sendSdkToken);
-
-      console.log("[Calling]:", path);
-      const response = await api.get<T>(pathOnExecute || path, {
+      const response = await api.get<HttpResponse<T>>(pathOnExecute || path, {
         params: paramsOnExecute || params,
-        headers,
       });
 
       if (!response.data) {
@@ -112,17 +109,17 @@ const useGet = <T>(
   path: string,
   options?: HttpHooksOptions,
 ): HttpHooksResponse<T> => {
-  return _useQuery<T>(path, { ...options });
+  return useQuery<T>(path, { ...options });
 };
 
-const _useMutation = <T>(
+const useMutation = <T>(
   path: string,
   method: "post" | "put" | "patch" | "delete",
   options?: HttpHooksOptions,
 ): HttpHooksResponse<T> => {
   const { payload, lazy, sendSdkToken } = { ...defaultOptions, ...options };
 
-  const [data, setData] = useState<T>();
+  const [data, setData] = useState<HttpResponse<T>>();
   const [ok, setOk] = useState<boolean | undefined>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -141,7 +138,7 @@ const _useMutation = <T>(
 
       console.log("[Requesting]::Start");
       try {
-        const response = await api[method]<T>(
+        const response = await api[method]<HttpResponse<T>>(
           pathOnExecute || path,
           payloadOnExecute || payload || {},
           {
@@ -187,7 +184,7 @@ const _useMutation = <T>(
 
   return {
     loading,
-    data: data,
+    data,
     execute,
     error,
     errorDetails,
@@ -199,28 +196,28 @@ const usePut = <T>(
   path: string,
   options?: HttpHooksOptions,
 ): HttpHooksResponse<T> => {
-  return _useMutation<T>(path, "put", options);
+  return useMutation<T>(path, "put", options);
 };
 
 const usePatch = <T>(
   path: string,
   options?: HttpHooksOptions,
 ): HttpHooksResponse<T> => {
-  return _useMutation<T>(path, "patch", options);
+  return useMutation<T>(path, "patch", options);
 };
 
 const usePost = <T>(
   path: string,
   options?: HttpHooksOptions,
 ): HttpHooksResponse<T> => {
-  return _useMutation<T>(path, "post", options);
+  return useMutation<T>(path, "post", options);
 };
 
 const useDelete = <T>(
   path: string,
   options?: HttpHooksOptions,
 ): HttpHooksResponse<T> => {
-  return _useMutation<T>(path, "delete", options);
+  return useMutation<T>(path, "delete", options);
 };
 
 export { useDelete, useGet, usePatch, usePost, usePut };
