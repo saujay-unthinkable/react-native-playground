@@ -1,78 +1,62 @@
 import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import "react-native-reanimated";
 
+import NetworkBoundary from "@/components/network-boundary";
 import { customFonts } from "@/constants/theme";
-import { ApplicationProvider } from "@/providers/ApplicationProvider";
-import StyledThemeProvider from "@/providers/StyledThemeProvider";
-import { useApplication } from "@/services/context/application";
-import { KeyboardAvoidingView, Platform } from "react-native";
+import AuthProvider from "@/providers/auth-provider";
+import StyledThemeProvider from "@/providers/styled-theme-provider";
+import UserProvider from "@/providers/user-provider";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
+export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Prevent splash from auto-hiding.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts(customFonts);
-
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  const [fontsLoaded, fontError] = useFonts(customFonts);
 
   useEffect(() => {
-    if (loaded) {
+    if (fontError) {
+      throw fontError;
+    }
+  }, [fontError]);
+
+  useEffect(() => {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
-    return null;
+  if (!fontsLoaded) {
+    return <KeyboardAvoidingView style={{ flex: 1 }} />;
   }
 
-  return <RootLayoutNav />;
-}
-
-// This will wraps all the providers.
-function RootLayoutNav() {
   return (
-    <ApplicationProvider>
-      <StyledThemeProvider>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
-          <AppContent />
-        </KeyboardAvoidingView>
-      </StyledThemeProvider>
-    </ApplicationProvider>
+    <AuthProvider>
+      <UserProvider>
+        <StyledThemeProvider>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+          >
+            <NetworkBoundary>
+              <RootLayoutContent />
+            </NetworkBoundary>
+          </KeyboardAvoidingView>
+        </StyledThemeProvider>
+      </UserProvider>
+    </AuthProvider>
   );
 }
 
-function AppContent() {
-  const { hasUserLoggedIn } = useApplication();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!hasUserLoggedIn) {
-      router.replace("/onboarding");
-    }
-  }, [hasUserLoggedIn, router]);
-
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
-  );
+function RootLayoutContent() {
+  return <Stack screenOptions={{ headerShown: false }}></Stack>;
 }

@@ -1,4 +1,4 @@
-import { View } from "@/components/Themed";
+import { StyledNavigationView } from "@/app-screens/styles/home-tab";
 import { StyledPageWrapper, StyledSafeAreaView } from "@/helpers/styles";
 import { useApplication } from "@/services/context/application";
 import { removeUserData } from "@/services/secure-storage";
@@ -7,7 +7,6 @@ import Text from "@/ui/text";
 import { Link, useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
 import { useTheme } from "styled-components/native";
-import { StyledNavigationView } from "./styles";
 
 export default function HomeScreen() {
   const { hasUserLoggedIn, setHasUserLoggedIn } = useApplication();
@@ -22,6 +21,7 @@ export default function HomeScreen() {
   // console.log("[RefreshToken]:", getRefreshToken());
 
   const handleLogout = () => {
+    console.log("[Logout]:");
     setHasUserLoggedIn(false);
     removeUserData();
   };
@@ -33,8 +33,7 @@ export default function HomeScreen() {
   return (
     <StyledSafeAreaView>
       <StyledPageWrapper spacingHorizontal="md">
-        <View style={styles.container}>
-          {/* <TextInput
+        {/* <TextInput
             borderVariant="whole"
             borderRadius={8}
             paddingHorizontal={8}
@@ -51,8 +50,8 @@ export default function HomeScreen() {
           <Text style={styles.status}>
             Status: {hasUserLoggedIn ? "Logged In" : "Not Logged In"}
           </Text> */}
-          <Button onPress={handleLogout}>Logout</Button>
-          {/* <View style={styles.buttonContainer}>
+        <Button onPress={handleLogout}>Logout</Button>
+        {/* <View style={styles.buttonContainer}>
             {!hasUserLoggedIn ? (
               <StyledButton onPress={() => setHasUserLoggedIn(true)}>
                 <StyledButtonText>Login</StyledButtonText>
@@ -63,37 +62,31 @@ export default function HomeScreen() {
               </StyledButton>
             )}
           </View> */}
-          <View
-            style={styles.separator}
-            lightColor="#eee"
-            darkColor="rgba(255,255,255,0.1)"
-          />
 
-          <StyledNavigationView>
-            <Link
-              href={{
-                pathname: "/edit-profile",
-              }}
-              style={styles.link}
-            >
-              <Text align="center">Edit Profile</Text>
-            </Link>
-            <Link
-              href={{
-                pathname: "/profile-details",
-                params: {
-                  id: 1,
-                },
-              }}
-              style={styles.link}
-            >
-              <Text align="center">Profile Details</Text>
-            </Link>
-            {/* <Link href={{ pathname: "/screen1" }} style={styles.link}>
+        <StyledNavigationView>
+          <Link
+            href={{
+              pathname: "/edit-profile",
+            }}
+            style={styles.link}
+          >
+            <Text align="center">Edit Profile</Text>
+          </Link>
+          <Link
+            href={{
+              pathname: "/profile-details",
+              params: {
+                id: 1,
+              },
+            }}
+            style={styles.link}
+          >
+            <Text align="center">Profile Details</Text>
+          </Link>
+          {/* <Link href={{ pathname: "/screen1" }} style={styles.link}>
               <Text>Go to Screen 1</Text>
             </Link> */}
-          </StyledNavigationView>
-        </View>
+        </StyledNavigationView>
       </StyledPageWrapper>
     </StyledSafeAreaView>
   );

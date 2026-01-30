@@ -1,6 +1,6 @@
-import { useColorScheme } from "@/components/useColorScheme";
 import { darkTheme, lightTheme } from "@/constants/theme";
 import React, { FC } from "react";
+import { useColorScheme } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 
 const StyledThemeProvider: FC<{ children: React.ReactNode }> = ({

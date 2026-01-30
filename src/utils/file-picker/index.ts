@@ -14,7 +14,6 @@ export async function pickDocument(): Promise<PickedFile | null> {
 
   const doc = result.assets[0];
 
-  console.log("[File]:", doc.size);
 
   return {
     uri: doc.uri,

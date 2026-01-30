@@ -4,7 +4,6 @@ import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 import { useTheme } from "styled-components/native";
 import SVGIcon from "../icon-svg";
-import { RotatingIcon } from "./rotating-icon";
 import { StyledFAIconContainer } from "./styles";
 import { IconProps } from "./typings";
 
@@ -44,18 +43,6 @@ const Icon: React.FC<IconProps> = ({
     () => (isGeneric ? "generic-icons" : "brand-icons"),
     [isGeneric],
   );
-
-  if (enableRotatingAnimation) {
-    return (
-      <RotatingIcon
-        name={name}
-        color={color}
-        type={type}
-        width={width}
-        height={height}
-      />
-    );
-  }
 
   switch (type) {
     case "svg":
