@@ -1,3 +1,5 @@
+import { SpacingNames } from "@/types/theme";
+
 export type IconType = "font-awesome-5" | "image" | "svg";
 
 export interface IconProps {
@@ -7,6 +9,8 @@ export interface IconProps {
   onPress?: () => void;
   enableRotatingAnimation?: boolean;
   disabled?: boolean;
+  spacingLeft?: SpacingNames;
+  spacingRight?: SpacingNames;
 
   /**
    * `size` works when the icon type if `font-awesome-5`.

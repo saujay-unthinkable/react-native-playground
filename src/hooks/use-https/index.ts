@@ -167,8 +167,8 @@ const useMutation = <T>(
         const err = error as AxiosError;
         const response = err?.response?.data as HttpsResponse;
         console.log("[Error]:", err?.message, err?.response);
-        setData(response.data);
-        setError(response.message || "");
+        setData(response?.data);
+        setError(response?.message || "");
         setLoading(false);
         return;
       }

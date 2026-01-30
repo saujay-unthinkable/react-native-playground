@@ -19,4 +19,10 @@ export const StyledText = styled.Text<
   ${({ lineHeight }) => (lineHeight ? `line-height: ${lineHeight}px;` : "")};
   ${({ letterSpacing }) =>
     letterSpacing ? `letter-spacing: ${letterSpacing}px;` : ""};
+  margin-bottom: ${(props) =>
+    props.theme.spacing[props.spacingBottom || "none"]}px;
+  margin-top: ${(props) => props.theme.spacing[props.spacingTop || "none"]}px;
+  margin-left: ${(props) => props.theme.spacing[props.spacingLeft || "none"]}px;
+  margin-right: ${(props) =>
+    props.theme.spacing[props.spacingRight || "none"]}px;
 `;
