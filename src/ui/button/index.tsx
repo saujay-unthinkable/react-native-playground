@@ -13,7 +13,7 @@ export const Button: FC<ButtonProps> = ({
   titleVariant,
   full = true,
   type = "solid",
-  disabledButtonColor,
+  disabledButtonColor = "color-neutral-400",
   borderRadius = 12,
   spacingBottom = 0,
   paddingVertical = 16,

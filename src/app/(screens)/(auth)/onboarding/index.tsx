@@ -11,7 +11,7 @@ const Onboarding = () => {
 
   const navigateTo = (pathname: string) => {
     router.push({
-      pathname: "/login",
+      pathname: pathname as any,
       params: {
         authMode: pathname === SCREENS.LOGIN ? "login" : "signup",
       },

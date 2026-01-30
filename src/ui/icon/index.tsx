@@ -36,6 +36,8 @@ const Icon: React.FC<IconProps> = ({
   width = 20,
   disabled = false,
   enableRotatingAnimation = false,
+  spacingLeft = "none",
+  spacingRight = "none",
   ...props
 }) => {
   const theme = useTheme();
@@ -69,7 +71,6 @@ const Icon: React.FC<IconProps> = ({
       return (
         <ControlledTouchableOpacity onPress={onPress} disabled={disabled}>
           <StyledFAIconContainer size={size}>
-            {/* <BaseIcon /> */}
             {React.createElement(BaseIcon as any, {
               name: name as any,
               type: type as any,

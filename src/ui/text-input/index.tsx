@@ -42,7 +42,7 @@ const TextInput: FC<TextInputProps> = ({
   borderWidth = 1,
   borderRadius = 12,
   paddingHorizontal = 12,
-  paddingVertical = 8,
+  paddingVertical = 4,
   borderVariant = "whole",
   rightIcon,
   ...props
@@ -67,7 +67,7 @@ const TextInput: FC<TextInputProps> = ({
 
   const errorBorderColor = theme.colors["color-danger-200"] as string;
   const focusBorderColor = theme.colors["color-primary-500"] as string;
-  const defaultBorderColor = theme.colors["color-neutral-300"] as string;
+  const defaultBorderColor = theme.colors["color-primary-200"] as string;
 
   const label = i18nLabel && t(i18nLabel);
   const placeholder = i18nPlaceholder && t(i18nPlaceholder);

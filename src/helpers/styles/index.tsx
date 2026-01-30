@@ -26,6 +26,7 @@ export const StyledPageWrapper = styled.View<{
   spacingHorizontal?: SpacingNames;
   spacingBottom?: SpacingNames;
   spacingTop?: SpacingNames;
+  paddingHorizontal?: SpacingNames;
 }>`
   flex: 1;
   margin-top: ${(props) => props.theme.spacing[props.spacingTop || "none"]}px;
@@ -33,4 +34,6 @@ export const StyledPageWrapper = styled.View<{
     props.theme.spacing[props.spacingHorizontal || "md"]}px;
   margin-horizontal: ${(props) =>
     props.theme.spacing[props.spacingHorizontal || "md"]}px;
+  padding-horizontal: ${(props) =>
+    props.theme.spacing[props.paddingHorizontal || "none"]}px;
 `;
