@@ -8,6 +8,8 @@ export const defaultContext: ApplicationType = {
   toggleTheme: () => {},
   hasUserLoggedIn: false,
   setHasUserLoggedIn: () => {},
+  authenticateUser: async (accessToken: string, refreshToken: string) => {},
+  logoutUser: async () => {},
 };
 
 export const ApplicationContext =

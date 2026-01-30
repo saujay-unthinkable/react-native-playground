@@ -15,10 +15,15 @@ export const api = axios.create({ baseURL: Config.apiBaseURL });
 
 api.interceptors.request.use(async (config) => {
   const token = getAccessToken();
+  const contentAccessToken = Config.contentAccessKey;
   console.log("[TOKEN]:", token);
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  if (contentAccessToken) {
+    config.headers["x-authorization"] = contentAccessToken;
   }
 
   return config;

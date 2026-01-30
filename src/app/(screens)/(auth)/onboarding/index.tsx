@@ -1,10 +1,10 @@
+import { StyledTopView } from "@/app-screens/styles/onboarding";
 import { SCREENS } from "@/constants/screens";
 import { StyledPageWrapper, StyledSafeAreaView } from "@/helpers/styles";
 import Button from "@/ui/button";
 import Icon from "@/ui/icon";
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyledTopView } from "./styles";
 
 const Onboarding = () => {
   const router = useRouter();
