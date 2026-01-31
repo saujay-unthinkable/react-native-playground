@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
@@ -10,6 +10,7 @@ import { customFonts } from "@/constants/theme";
 import AuthProvider from "@/providers/auth-provider";
 import StyledThemeProvider from "@/providers/styled-theme-provider";
 import UserProvider from "@/providers/user-provider";
+import { useAuth } from "@/services/context/auth";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -59,5 +60,26 @@ export default function RootLayout() {
 }
 
 function RootLayoutContent() {
+  const { hasUserLoggedIn, isAuthLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(
+      "[RootLayoutContent] isAuthLoading:",
+      isAuthLoading,
+      "hasUserLoggedIn:",
+      hasUserLoggedIn,
+    );
+    if (isAuthLoading) return;
+
+    if (hasUserLoggedIn) {
+      console.log("[RootLayoutContent] redirecting to /protected");
+      router.replace("/protected");
+    } else {
+      console.log("[RootLayoutContent] redirecting to /unprotected");
+      router.replace("/unprotected");
+    }
+  }, [isAuthLoading, hasUserLoggedIn, router]);
+
   return <Stack screenOptions={{ headerShown: false }}></Stack>;
 }

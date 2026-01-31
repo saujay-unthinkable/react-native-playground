@@ -11,15 +11,24 @@ import Icon from "@/ui/icon";
 import OtpInput from "@/ui/otp-input";
 import Text from "@/ui/text";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from "react";
 
 const Otp = () => {
   const params = useLocalSearchParams();
   const router = useRouter();
   const { authenticateUser } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   console.log("[Params]:", params);
 
-  const handleSubmit = () => {
-    authenticateUser("accessToken", "refreshToken");
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      await authenticateUser("accessToken", "refreshToken");
+    } catch (error) {
+      console.error("Error during authentication:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -40,7 +49,7 @@ const Otp = () => {
             <Text i18n="Change" variant="body_xs.regular"></Text>
           </StyledMobileInfoView>
           <OtpInput />
-          <Button i18n="Submit" onPress={handleSubmit} />
+          <Button i18n="Submit" onPress={handleSubmit} loading={isSubmitting} />
         </StyledFormView>
       </StyledPageWrapper>
     </StyledSafeAreaView>

@@ -1,10 +1,6 @@
 import { Input } from "@rneui/base";
 import React, { FC, useEffect, useState } from "react";
-import {
-  ColorValue,
-  NativeSyntheticEvent,
-  TextInputFocusEventData,
-} from "react-native";
+import { BlurEvent, ColorValue, FocusEvent } from "react-native";
 
 import { getTypographyStyle } from "@/helpers/theme";
 import { t } from "@/services/i18n";
@@ -88,12 +84,12 @@ const TextInput: FC<TextInputProps> = ({
     }
   }, [i18nErrorMessage, errorBorderColor, defaultBorderColor]);
 
-  const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+  const handleBlur = (e: BlurEvent) => {
     setBorderColor(i18nErrorMessage ? errorBorderColor : defaultBorderColor);
     onBlur && onBlur?.(e);
   };
 
-  const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+  const handleFocus = (e: FocusEvent) => {
     setBorderColor(focusBorderColor);
     onFocus && onFocus?.(e);
   };

@@ -1,13 +1,15 @@
-import { UserProfileData } from "@/types/http";
 import { createContext, useContext } from "react";
+import { UserContextType } from "./typings";
 
-type UserProfileState = {
-  loading: boolean;
-  isAuthenticated: boolean;
-  userProfile: UserProfileData | null;
-  refreshProfile: () => Promise<void>;
+export const defaultContext: UserContextType = {
+  isUserLoading: true,
+  isAuthenticated: false,
+  fetchUser: async () => {},
+  resetUser: () => {},
+  setUser: () => {},
+  userProfile: null,
 };
 
-export const AuthContext = createContext<UserProfileState>(null as any);
+export const UserContext = createContext<UserContextType>(null as any);
 
-export const useUser = () => useContext(AuthContext);
+export const useUser = () => useContext(UserContext);

@@ -13,32 +13,40 @@ interface AuthProviderProps {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const isTokenAvailable = !!getAccessToken();
-  const [hasUserLoggedIn, setHasUserLoggedIn] =
-    useState<boolean>(isTokenAvailable);
+  const [hasUserLoggedIn, setHasUserLoggedIn] = useState<boolean>(false);
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
 
   const authenticateUser = async (
     accessToken?: string,
     refreshToken?: string,
   ) => {
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    setHasUserLoggedIn(true);
-    console.log("[authenticateUser] - Credentials stored.");
+    try {
+      if (accessToken) await setAccessToken(accessToken);
+      if (refreshToken) await setRefreshToken(refreshToken);
+      setHasUserLoggedIn(true);
+      console.log("[authenticateUser] - Credentials stored.");
+    } catch (error) {
+      console.error("Error storing credentials:", error);
+      throw error;
+    }
   };
 
   const logoutUser = async () => {
-    setHasUserLoggedIn(false);
-    removeUserData();
-    console.log("[authenticateUser] - Credentials removed.");
+    try {
+      await removeUserData();
+      setHasUserLoggedIn(false);
+      console.log("[logoutUser] - Credentials removed.");
+    } catch (error) {
+      console.error("Error removing credentials:", error);
+      setHasUserLoggedIn(false);
+    }
   };
 
   useEffect(() => {
     const bootstrap = async () => {
       console.log("Bootstrapping <AuthProvider/>");
       try {
-        const token = getAccessToken();
+        const token = await getAccessToken();
         setHasUserLoggedIn(!!token);
       } catch (error) {
         console.error("Error reading auth token:", error);
@@ -67,6 +75,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const value = {
+    isAuthLoading,
     hasUserLoggedIn,
     setHasUserLoggedIn,
     authenticateUser,

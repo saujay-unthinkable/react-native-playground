@@ -1,7 +1,8 @@
 import { PUT_ME } from "@/constants/api-endpoints";
 import { StyledPageWrapper, StyledSafeAreaView } from "@/helpers/styles";
 import { usePut } from "@/hooks/use-https";
-import { useAuth } from "@/services/context/auth";
+import { useUser } from "@/services/context/user";
+import { UserProfileData } from "@/types/http";
 import Button from "@/ui/button";
 import Icon from "@/ui/icon";
 import Text from "@/ui/text";
@@ -26,7 +27,7 @@ import {
 import { ProfileDetail } from "../../../../../app-screens/typings/edit-profile-screen";
 
 const CompleteProfile = () => {
-  const { logoutUser } = useAuth();
+  const { setUser } = useUser();
   const [form, setForm] = useState<ProfileDetail>({
     firstName: "",
     lastName: "",
@@ -168,7 +169,16 @@ const CompleteProfile = () => {
     await postProfile(payload);
   };
 
-  console.log("[PostProfile]:", postProfileError, postProfileResponse);
+  // console.log("[PostProfile]:", postProfileError, postProfileResponse);
+
+  const submit = () => {
+    setUser({
+      customer: {
+        is_profile_completed: true,
+      },
+    } as UserProfileData);
+    console.log("[Profile]: Completed.");
+  };
 
   return (
     <StyledSafeAreaView>
@@ -178,7 +188,7 @@ const CompleteProfile = () => {
             Complete Your Profile
           </Text>
 
-          <Button i18n="Logout" spacingBottom={12} onPress={logoutUser} />
+          <Button i18n="Submit" spacingBottom={12} onPress={submit} />
 
           <View style={styles.imageContainer}>
             <TouchableOpacity onPress={handleProfileImageRequest}>

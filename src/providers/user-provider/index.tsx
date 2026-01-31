@@ -1,6 +1,6 @@
 import { GET_ME } from "@/constants/api-endpoints";
 import { api } from "@/services/api";
-import { AuthContext } from "@/services/context/user";
+import { UserContext } from "@/services/context/user";
 import { getAccessToken } from "@/services/secure-storage";
 import { UserProfileData } from "@/types/http";
 import { useEffect, useState } from "react";
@@ -25,6 +25,14 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
 
+  const setUser = (userData: UserProfileData) => {
+    setUserProfile(userData);
+  };
+
+  const resetUser = () => {
+    setUserProfile(null);
+  };
+
   useEffect(() => {
     const bootstrap = async () => {
       console.log("Bootstrapping <UserProvider/>");
@@ -38,7 +46,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
         setAuthenticated(true);
 
-        await fetchProfileStatus();
+        await fetchUser();
       } finally {
         setIsUserLoading(false);
       }
@@ -47,27 +55,25 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     bootstrap();
   }, []);
 
-  async function fetchProfileStatus() {
+  async function fetchUser() {
     const userProfileData = await fetchUserProfile();
     setUserProfile(userProfileData);
-    return userProfileData;
-  }
-
-  async function refreshProfile() {
-    await fetchProfileStatus();
+    return;
   }
 
   return (
-    <AuthContext.Provider
+    <UserContext.Provider
       value={{
-        loading: isUserLoading,
+        isUserLoading,
         isAuthenticated,
         userProfile,
-        refreshProfile,
+        fetchUser,
+        setUser,
+        resetUser,
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 };
 

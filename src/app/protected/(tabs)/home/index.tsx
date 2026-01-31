@@ -1,29 +1,23 @@
 import { StyledNavigationView } from "@/app-screens/styles/home-tab";
 import { StyledPageWrapper, StyledSafeAreaView } from "@/helpers/styles";
 import { useAuth } from "@/services/context/auth";
-import { removeUserData } from "@/services/secure-storage";
+import { useUser } from "@/services/context/user";
 import Button from "@/ui/button";
 import Text from "@/ui/text";
 import { Link, useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
-import { useTheme } from "styled-components/native";
 
 export default function HomeScreen() {
-  const { hasUserLoggedIn, setHasUserLoggedIn } = useAuth();
-  const theme = useTheme();
-
+  const { logoutUser } = useAuth();
+  const { resetUser } = useUser();
   const router = useRouter();
-
-  const handleNavigation = () => {
-    router.navigate("/protected/profile");
-  };
 
   // console.log("[RefreshToken]:", getRefreshToken());
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     console.log("[Logout]:");
-    setHasUserLoggedIn(false);
-    removeUserData();
+    await logoutUser();
+    resetUser();
   };
 
   // const { data } = useGet(GET_TEST_LIST);
