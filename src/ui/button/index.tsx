@@ -9,7 +9,7 @@ import { ButtonProps } from "./typings";
 const defaultColor = "color-neutral-1100";
 const defaultTitleColor = "color-neutral-100";
 
-export const Button: FC<ButtonProps> = ({
+const Button: FC<ButtonProps> = ({
   titleVariant,
   full = true,
   type = "solid",

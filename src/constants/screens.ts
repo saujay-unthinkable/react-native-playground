@@ -1,5 +1,5 @@
 export const SCREENS = {
-  LOGIN: "/login",
-  SIGNUP: "/signup",
-  HOME: "/home",
+  LOGIN: "/unprotected/login",
+  SIGNUP: "/unprotected/signup",
+  HOME: "/protected/home",
 };

@@ -1,4 +1,4 @@
-import { ProfileDetail } from "./types";
+import { ProfileDetail } from "../typings/edit-profile-screen";
 
 export const isEmailValid = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

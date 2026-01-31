@@ -1,6 +1,6 @@
 import { StyledNavigationView } from "@/app-screens/styles/home-tab";
 import { StyledPageWrapper, StyledSafeAreaView } from "@/helpers/styles";
-import { useApplication } from "@/services/context/application";
+import { useAuth } from "@/services/context/auth";
 import { removeUserData } from "@/services/secure-storage";
 import Button from "@/ui/button";
 import Text from "@/ui/text";
@@ -9,13 +9,13 @@ import { StyleSheet } from "react-native";
 import { useTheme } from "styled-components/native";
 
 export default function HomeScreen() {
-  const { hasUserLoggedIn, setHasUserLoggedIn } = useApplication();
+  const { hasUserLoggedIn, setHasUserLoggedIn } = useAuth();
   const theme = useTheme();
 
   const router = useRouter();
 
   const handleNavigation = () => {
-    router.navigate("/profile");
+    router.navigate("/protected/profile");
   };
 
   // console.log("[RefreshToken]:", getRefreshToken());
@@ -66,7 +66,7 @@ export default function HomeScreen() {
         <StyledNavigationView>
           <Link
             href={{
-              pathname: "/edit-profile",
+              pathname: "/protected/edit-profile",
             }}
             style={styles.link}
           >
@@ -74,7 +74,7 @@ export default function HomeScreen() {
           </Link>
           <Link
             href={{
-              pathname: "/profile-details",
+              pathname: "/protected/profile-details",
               params: {
                 id: 1,
               },

@@ -1,3 +1,4 @@
+import { getPhoneNumberError } from "@/app-screens/helpers/login-screen";
 import { StyledTextInputsView } from "@/app-screens/styles/login";
 import { AuthMode } from "@/app-screens/typings/login";
 import {
@@ -8,7 +9,7 @@ import {
 } from "@/constants/api-endpoints";
 import { StyledPageWrapper, StyledSafeAreaView } from "@/helpers/styles";
 import { usePost } from "@/hooks/use-https";
-import { useApplication } from "@/services/context/application";
+import { useAuth } from "@/services/context/auth";
 import { setAccessToken, setRefreshToken } from "@/services/secure-storage";
 import { AuthVerificationResponse } from "@/types/http";
 import Button from "@/ui/button";
@@ -18,14 +19,13 @@ import TextInput from "@/ui/text-input";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { getPhoneNumberError } from "./helpers";
 
 const Login = () => {
   const params = useLocalSearchParams();
   const authMode = params?.authMode as AuthMode;
   const isLogin = authMode === AuthMode.login;
   const router = useRouter();
-  const { setHasUserLoggedIn } = useApplication();
+  const { setHasUserLoggedIn } = useAuth();
 
   const [isPhoneView, setIsPhoneView] = useState<boolean>(true);
   const [errors, setErrors] = useState<{
@@ -104,7 +104,7 @@ const Login = () => {
     setAccessToken(response?.data?.access);
     setRefreshToken(response?.data?.refresh);
     router.dismissAll();
-    router.replace("/home");
+    router.replace("/protected/(tabs)/home");
   };
 
   useEffect(() => {

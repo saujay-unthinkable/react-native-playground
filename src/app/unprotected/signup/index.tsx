@@ -6,8 +6,12 @@ import Text from "@/ui/text";
 import TextInput from "@/ui/text-input";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
-import { getPhoneNumberError } from "../login/helpers";
-import { StyledBrandView, StyledFormView, StyledSignupView } from "./styles";
+import { getPhoneNumberError } from "../../../app-screens/helpers/login-screen";
+import {
+  StyledBrandView,
+  StyledFormView,
+  StyledSignupView,
+} from "../../../app-screens/styles/signup-screen";
 
 const Signup = () => {
   const router = useRouter();
@@ -49,7 +53,7 @@ const Signup = () => {
     // });
 
     router.push({
-      pathname: "/otp",
+      pathname: "/unprotected/otp",
       params: {
         mobileNumber,
       },

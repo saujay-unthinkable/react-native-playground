@@ -1,7 +1,4 @@
-import {
-  ApplicationContext,
-  defaultContext,
-} from "@/services/context/application";
+import { AuthContext, defaultContext } from "@/services/context/auth";
 import {
   getAccessToken,
   removeUserData,
@@ -9,13 +6,17 @@ import {
   setRefreshToken,
 } from "@/services/secure-storage";
 import React, { ReactNode, useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [hasUserLoggedIn, setHasUserLoggedIn] = useState<boolean>(false);
+  const isTokenAvailable = !!getAccessToken();
+  const [hasUserLoggedIn, setHasUserLoggedIn] =
+    useState<boolean>(isTokenAvailable);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
 
   const authenticateUser = async (
     accessToken?: string,
@@ -24,23 +25,46 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     setHasUserLoggedIn(true);
+    console.log("[authenticateUser] - Credentials stored.");
   };
 
   const logoutUser = async () => {
     setHasUserLoggedIn(false);
     removeUserData();
+    console.log("[authenticateUser] - Credentials removed.");
   };
 
   useEffect(() => {
-    try {
-      const token = getAccessToken();
-      console.log("Access Token:", token);
-      setHasUserLoggedIn(!!token);
-    } catch (error) {
-      console.error("Error reading auth token:", error);
-      setHasUserLoggedIn(false);
-    }
+    const bootstrap = async () => {
+      console.log("Bootstrapping <AuthProvider/>");
+      try {
+        const token = getAccessToken();
+        setHasUserLoggedIn(!!token);
+      } catch (error) {
+        console.error("Error reading auth token:", error);
+        setHasUserLoggedIn(false);
+      } finally {
+        setIsAuthLoading(false);
+      }
+    };
+
+    bootstrap();
   }, []);
+
+  if (isAuthLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "red",
+        }}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   const value = {
     hasUserLoggedIn,
@@ -50,9 +74,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <ApplicationContext.Provider value={{ ...defaultContext, ...value }}>
+    <AuthContext.Provider value={{ ...defaultContext, ...value }}>
       {children}
-    </ApplicationContext.Provider>
+    </AuthContext.Provider>
   );
 };
 

@@ -1,6 +1,7 @@
 import { PUT_ME } from "@/constants/api-endpoints";
 import { StyledPageWrapper, StyledSafeAreaView } from "@/helpers/styles";
 import { usePut } from "@/hooks/use-https";
+import { useAuth } from "@/services/context/auth";
 import Button from "@/ui/button";
 import Icon from "@/ui/icon";
 import Text from "@/ui/text";
@@ -21,10 +22,11 @@ import {
   isAadhaarValid,
   isEmailValid,
   isPincodeValid,
-} from "./helpers";
-import { ProfileDetail } from "./types";
+} from "../../../../../app-screens/helpers/edit-profile-screen";
+import { ProfileDetail } from "../../../../../app-screens/typings/edit-profile-screen";
 
 const CompleteProfile = () => {
+  const { logoutUser } = useAuth();
   const [form, setForm] = useState<ProfileDetail>({
     firstName: "",
     lastName: "",
@@ -176,6 +178,8 @@ const CompleteProfile = () => {
             Complete Your Profile
           </Text>
 
+          <Button i18n="Logout" spacingBottom={12} onPress={logoutUser} />
+
           <View style={styles.imageContainer}>
             <TouchableOpacity onPress={handleProfileImageRequest}>
               <View style={styles.avatar}>
@@ -185,7 +189,7 @@ const CompleteProfile = () => {
                     style={styles.avatarImage}
                   />
                 ) : (
-                  <Icon name="camera" size={28} />
+                  <Icon name="car" solid size={28} />
                 )}
               </View>
             </TouchableOpacity>

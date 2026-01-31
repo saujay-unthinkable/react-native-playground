@@ -13,7 +13,8 @@ const Onboarding = () => {
     router.push({
       pathname: pathname as any,
       params: {
-        authMode: pathname === SCREENS.LOGIN ? "login" : "signup",
+        authMode:
+          pathname === SCREENS.LOGIN ? "/protected/login" : "/protected/signup",
       },
     });
   };

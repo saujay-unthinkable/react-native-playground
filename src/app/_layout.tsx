@@ -21,6 +21,7 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  console.log("[_Layout]: Initialized.");
   const [fontsLoaded, fontError] = useFonts(customFonts);
 
   useEffect(() => {

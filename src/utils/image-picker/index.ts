@@ -20,7 +20,7 @@ export async function pickImage(): Promise<PickedFile | null> {
 
   const asset = result.assets[0];
 
-  console.log("[Image]:", asset.fileSize);
+  // console.log("[Image]:", asset.fileSize);
 
   return {
     uri: asset.uri,

@@ -10,4 +10,4 @@ type UserProfileState = {
 
 export const AuthContext = createContext<UserProfileState>(null as any);
 
-export const useAuth = () => useContext(AuthContext);
+export const useUser = () => useContext(AuthContext);

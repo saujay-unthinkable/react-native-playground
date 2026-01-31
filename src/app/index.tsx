@@ -1,12 +1,14 @@
-import { useApplication } from "@/services/context/application";
+import { useAuth } from "@/services/context/auth";
 import { Redirect } from "expo-router";
 
 export default function Index() {
-  const { hasUserLoggedIn } = useApplication();
+  const { hasUserLoggedIn } = useAuth();
 
-  console.log("Index route - hasUserLoggedIn:", hasUserLoggedIn);
+  console.log("/app Index - hasUserLoggedIn:", hasUserLoggedIn);
 
-  return hasUserLoggedIn
-    ? <Redirect href="/home" />
-    : <Redirect href="/onboarding" />;
+  return hasUserLoggedIn ? (
+    <Redirect href="/protected" />
+  ) : (
+    <Redirect href="/unprotected" />
+  );
 }
